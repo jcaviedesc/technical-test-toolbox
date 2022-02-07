@@ -2,7 +2,7 @@
  * convert from string csv to json
  * @param {string} stringCsv 
  */
-export const csvToJson = (stringCsv, transform) => {
+export const csvToJson = (stringCsv, transform = null) => {
   return new Promise((resolve, reject) => {
     const fileLines = stringCsv.split('\n')
     const columnNames = fileLines.length > 0 ? fileLines[0].split(',') : null;

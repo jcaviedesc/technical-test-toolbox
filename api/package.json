@@ -5,14 +5,18 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_ENV=test mocha --timeout 10000 --reporter spec",
     "start": "node --experimental-modules server.js"
   },
   "author": "jcaviedesc",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.25.0",
-    "convert-csv-to-json": "^1.3.3",
     "express": "^4.17.2"
+  },
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "mocha": "^9.2.0"
   }
 }

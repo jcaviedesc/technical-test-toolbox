@@ -55,4 +55,5 @@ app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
 
-// curl -v -X GET "http://localhost:8081/files/data" -H "accept: application/json"
+// curl -v GET "http://localhost:8081/files/data" -H "accept: application/json"
+export default app; // for testing
