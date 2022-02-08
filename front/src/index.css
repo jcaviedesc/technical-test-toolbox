@@ -11,3 +11,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.Header {
+  background-color: #fe6666;
+  padding: 21px 0px;
+}
+
+.Header__container {
+  padding: 0px 30px;
+}
+
+.title {
+  font-weight: 800;
+  color: #fff;
+  font-size: 1.2rem;
+}

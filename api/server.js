@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import Api from './services/api.js';
 import { csvToJson } from './lib/csvToJson.js'
 
@@ -6,9 +7,9 @@ const PORT = process.env.PORT || 8081;
 const app = express();
 const api = Api();
 
-app.get('/files/data', async (req, res) => {
-  res.contentType('application/json');
+app.use(cors());
 
+app.get('/files/data', async (req, res) => {
   try {
     const { data: { files } } = await api.listFiles();
     const allFiles = await api.getDetailFromMultiplesFiles(files);
@@ -27,7 +28,8 @@ app.get('/files/data', async (req, res) => {
 
     const parseFiles = await Promise.all(allFiles.map(file => csvToJson(file, tranformResultJson)))
       .then(parseToJson => parseToJson.filter(parseJson => parseJson != null));
-
+    
+    res.contentType('application/json');
     res.status(200);
     res.json(parseFiles);
   } catch (error) {
@@ -41,7 +43,7 @@ app.get('/files/list', async (req, res) => {
 
   try {
     const { data } = await api.listFiles();
-    
+
     res.status(200);
     res.json(data);
   } catch (error) {
