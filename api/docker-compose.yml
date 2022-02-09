@@ -1,0 +1,11 @@
+version: '3'
+services:
+  back-app:
+    container_name: jc-api-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+    ports:
+      - 8081:8081
