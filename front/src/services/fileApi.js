@@ -9,7 +9,7 @@ const Api = () => {
 
   return {
     listFiles: () => instance.get('/files/data'),
-    getFile: (file) => instance.get(`/secret/file/${file}`),
+    getFile: (file) => instance.get(`/files/data?fileName=${file}`),
   }
 }
 

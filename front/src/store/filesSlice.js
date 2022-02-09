@@ -5,6 +5,7 @@ const filesSlice = createSlice({
   initialState: {
     files: [],
     loading: true,
+    errorMessage: "",
   },
   reducers: {
     loadFiles: (state, action) => {
@@ -13,12 +14,28 @@ const filesSlice = createSlice({
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
       state.files = action.payload;
+      state.loading = false;
     },
+    loadingFiles: state => {
+      state.loading = true
+    },
+    loadFilesFailed: (state, action) => {
+      state.loading = false;
+      state.errorMessage = action.payload
+    },
+    cleanErrorMessage: state => {
+      state.errorMessage = ""
+    }
   }
 })
 
-export const selectFiles = state => state.files;
+export const selectFiles = state => state;
 
-export const { loadFiles } = filesSlice.actions
+export const {
+  loadFiles,
+  loadingFiles,
+  loadFilesFailed, 
+  cleanErrorMessage
+} = filesSlice.actions
 
 export default filesSlice.reducer;

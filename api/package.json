@@ -6,14 +6,15 @@
   "type": "module",
   "scripts": {
     "test": "NODE_ENV=test mocha --timeout 10000 --reporter spec",
-    "start": "node --experimental-modules server.js"
+    "start": "nodemon server.js"
   },
   "author": "jcaviedesc",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.25.0",
     "cors": "^2.8.5",
-    "express": "^4.17.2"
+    "express": "^4.17.2",
+    "nodemon": "^2.0.15"
   },
   "devDependencies": {
     "chai": "^4.3.6",

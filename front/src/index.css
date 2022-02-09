@@ -19,10 +19,17 @@ code {
 
 .Header__container {
   padding: 0px 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .title {
   font-weight: 800;
   color: #fff;
   font-size: 1.2rem;
+}
+
+.input-container {
+  margin-left: 21px;
 }

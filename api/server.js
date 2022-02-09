@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { response } from 'express';
 import cors from 'cors';
 import Api from './services/api.js';
 import { csvToJson } from './lib/csvToJson.js'
@@ -10,29 +10,45 @@ const api = Api();
 app.use(cors());
 
 app.get('/files/data', async (req, res) => {
+  const { fileName } = req.query;
+  let parseFiles = [];
+  let status = 200;
+
+  const tranformResultJson = jsonLines => {
+    const finalJsonStruct = {
+      file: jsonLines[0].file,
+    }
+    const lines = jsonLines.map(line => {
+      delete line.file;
+      return line
+    })
+
+    return { ...finalJsonStruct, lines }
+  }
   try {
-    const { data: { files } } = await api.listFiles();
-    const allFiles = await api.getDetailFromMultiplesFiles(files);
-
-    const tranformResultJson = jsonLines => {
-      const finalJsonStruct = {
-        file: jsonLines[0].file,
+    if (fileName !== undefined) {
+      const response = await api.getFile(fileName).catch(err => err.response);
+      if (response.status === 200) {
+        parseFiles = await csvToJson(response.data, tranformResultJson);
+      } else {
+        status = response.status
       }
-      const lines = jsonLines.map(line => {
-        delete line.file;
-        return line
-      })
+    } else {
+      const { data: { files } } = await api.listFiles();
+      const allFiles = await api.getDetailFromMultiplesFiles(files)
+        .then(response =>
+          response.map(file => csvToJson(file, tranformResultJson))
+        );
 
-      return { ...finalJsonStruct, lines }
+      parseFiles = await Promise.all(allFiles)
+        .then(parseToJson => parseToJson.filter(parseJson => parseJson != null));
     }
 
-    const parseFiles = await Promise.all(allFiles.map(file => csvToJson(file, tranformResultJson)))
-      .then(parseToJson => parseToJson.filter(parseJson => parseJson != null));
-    
     res.contentType('application/json');
-    res.status(200);
+    res.status(status);
     res.json(parseFiles);
   } catch (error) {
+    console.log(error)
     res.status(500);
     res.json({ message: error });
   }
