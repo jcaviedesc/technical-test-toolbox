@@ -1,5 +1,4 @@
-
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
@@ -41,6 +40,13 @@ function App() {
 
   const cleanError = () => {
     dispatch(cleanErrorMessage())
+    Api.listFiles()
+      .then(data => {
+        dispatch(loadFiles(data.data))
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   return (
@@ -68,7 +74,7 @@ function App() {
               <tr>
                 <td>
                   <span>{errorMessage}</span>
-                  <Button  variant="link" onClick={cleanError}>back</Button>
+                  <Button variant="link" onClick={cleanError}>back</Button>
                 </td>
               </tr>
             </tbody>)

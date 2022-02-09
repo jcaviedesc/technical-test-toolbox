@@ -15,6 +15,7 @@ const filesSlice = createSlice({
       // immutable state based off those changes
       state.files = action.payload;
       state.loading = false;
+      state.errorMessage = "";
     },
     loadingFiles: state => {
       state.loading = true
